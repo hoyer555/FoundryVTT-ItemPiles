@@ -122,7 +122,7 @@
   "socket": true,
   "url": "https://github.com/hoyer555/FoundryVTT-ItemPiles",
   "manifest": "https://raw.githubusercontent.com/hoyer555/FoundryVTT-ItemPiles/refs/tags/3.1.7/module.json",
-  "download": "https://github.com/hoyer555/FoundryVTT-ItemPiles/archive/refs/tags/3.1.7.zip",
+  "download": "https://github.com/hoyer555/monks-enhanced-journal/archive/refs/tags/3.1.7.zip",
   "readme": "https://raw.githubusercontent.com/hoyer555/FoundryVTT-ItemPiles/refs/tags/3.1.7/README.md",
   "bugs": "https://github.com/hoyer555/FoundryVTT-ItemPiles/issues"
 }
