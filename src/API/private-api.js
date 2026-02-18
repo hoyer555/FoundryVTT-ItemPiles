@@ -18,6 +18,7 @@ import BankVaultApp from "../applications/vault-app/vault-app.js";
 import { hotkeyActionState } from "../hotkeys.js";
 import { ensureValidIds } from "../helpers/utilities.js";
 import { getPileActorDefaults } from "../helpers/pile-utilities.js";
+import {getItemDetailsByIdentified} from "../helpers/helpers.js";
 
 const preloadedFiles = new Set();
 
@@ -203,6 +204,14 @@ export default class PrivateAPI {
 		if (removeExistingActorItems) {
 			const existingItems = PileUtilities.getActorItems(targetActor);
 			await transaction.appendItemChanges(existingItems, { remove: true });
+		}
+
+		if (items) {
+			for (let i = 0; i < items.length; i++) {
+				const itemDetail = getItemDetailsByIdentified(itemData);
+				items[i].name = itemDetail.name;
+				items[i].img = itemDetail.img;
+			}
 		}
 
 		await transaction.appendItemChanges(items);
@@ -1316,6 +1325,11 @@ export default class PrivateAPI {
 				if (SYSTEMS.DATA.ITEM_TRANSFORMER) {
 					itemData = await SYSTEMS.DATA.ITEM_TRANSFORMER(itemData);
 				}
+
+				const itemDetail = getItemDetailsByIdentified(itemData);
+				items[i].name = itemDetail.name;
+				items[i].img = itemDetail.img;
+
 				items[i] = itemData;
 			}
 		} else {
