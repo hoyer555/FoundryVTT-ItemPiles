@@ -365,3 +365,15 @@ export function isCoordinateWithinPosition(x, y, position) {
 export function getCanvasMouse() {
 	return canvas?.app?.renderer?.plugins?.interaction?.pointer ?? canvas?.app?.renderer?.events?.pointer;
 }
+
+export function getItemDetailsByIdentified(item) {
+	let name = item.name;
+	let img = item.img;
+
+	if (item.system?.identification?.status == "unidentified" || item.system?.identified === false) {
+		name = item.system?.identification.unidentified.name || name;
+		img = item.system?.identification.unidentified.img || img;
+	}
+
+	return { name, img };
+}
