@@ -7,6 +7,7 @@ import CONSTANTS from "../constants/constants.js";
 import { Plugins } from "../plugins/main.js";
 import { SYSTEMS } from "../systems.js";
 import * as CompendiumUtilities from "../helpers/compendium-utilities.js";
+import {getItemDetailsByIdentified} from "../helpers/helpers.js";
 
 class PileBaseItem {
 
