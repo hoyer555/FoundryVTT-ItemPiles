@@ -71,7 +71,7 @@ export class PileItem extends PileBaseItem {
 		const itemData = CompendiumUtilities.findSimilarItemInCompendiumSync(this.item);
 		const itemDetail = getItemDetailsByIdentified(itemData || item);
 		this.name = writable(itemDetail.name);
-		this.identifiedName = writable(itemDetail.identifiedName);
+		this.identifiedName = writable(game.user.isGM && itemDetail.identifiedName != itemDetail.name ? itemDetail.identifiedName : null);
 		this.img = writable(itemDetail.img);
 		this.abbreviation = writable("");
 		this.identifier = foundry.utils.randomID();
@@ -101,8 +101,10 @@ export class PileItem extends PileBaseItem {
 			const updateData = this.itemDocument.updateOptions;
 			const renderData = updateData?.renderData ?? updateData?.data ?? {};
 			const itemData = CompendiumUtilities.findSimilarItemInCompendiumSync(this.item);
-			this.name.set(itemData?.name ?? this.item.name);
-			this.img.set(itemData?.img ?? this.item.img);
+			const itemDetail = getItemDetailsByIdentified(itemData || item);
+			this.name.set(itemDetail.name);
+			this.identifiedName.set(game.user.isGM && itemDetail.identifiedName != itemDetail.name ? itemDetail.identifiedName : null);
+			this.img.set(itemDetail.img))
 			this.similarities = Utilities.setSimilarityProperties({}, this.item);
 			if (PileUtilities.canItemStack(this.item, this.store.actor) && Utilities.hasItemQuantity(renderData)) {
 				this.quantity.set(Utilities.getItemQuantity(renderData));
