@@ -72,6 +72,7 @@ export class PileItem extends PileBaseItem {
 		const itemDetail = getItemDetailsByIdentified(itemData);
 		this.name = writable(itemDetail.name);
 		this.identifiedName = writable(itemDetail.identifiedName);
+		this.item.identifiedName = writable(itemDetail.identifiedName);
 		this.img = writable(itemDetail.img);
 		this.abbreviation = writable("");
 		this.identifier = foundry.utils.randomID();
