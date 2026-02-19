@@ -370,10 +370,13 @@ export function getItemDetailsByIdentified(item) {
 	let name = item.name;
 	let img = item.img;
 
-	if (item.system?.identification?.status == "unidentified" || item.system?.identified === false) {
+	let identifiedName = name;
+	if (item.system?.identification?.status == "unidentified") {
 		name = item.system?.identification.unidentified.name || name;
 		img = item.system?.identification.unidentified.img || img;
+	} else if (item.system?.identified === false) {
+		name = item.system?.unidentified?.name || name;
 	}
 
-	return { name, img };
+	return { name, img, identifiedName };
 }
