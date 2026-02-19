@@ -68,8 +68,10 @@ export class PileItem extends PileBaseItem {
 		this.id = this.item.id;
 		this.type = this.item.type;
 		const itemData = CompendiumUtilities.findSimilarItemInCompendiumSync(this.item);
-		this.name = writable(itemData?.name ?? this.item.name);
-		this.img = writable(itemData?.img ?? this.item.img);
+		const itemDetail = getItemDetailsByIdentified(itemData);
+		this.name = writable(itemDetail.name);
+		this.identifiedName = writable(itemDetail.identifiedName);
+		this.img = writable(itemDetail.img);
 		this.abbreviation = writable("");
 		this.identifier = foundry.utils.randomID();
 		this.itemFlagData = writable(PileUtilities.getItemFlagData(this.item));
