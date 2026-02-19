@@ -5,6 +5,7 @@ import ItemPileSocket from "../socket.js";
 import * as PileUtilities from "../helpers/pile-utilities.js";
 import * as Utilities from "../helpers/utilities.js";
 import TradeAPI from "./trade-api.js";
+import {getItemDetailsByIdentified} from "../helpers/helpers.js";
 
 let CHAT_MESSAGE_STYLES = false;
 
@@ -520,11 +521,13 @@ export default class ChatAPI {
 			}
 		}
 
+		let itemsData = this._createCustomItemToDisplay(items);
+
 		const chatCardHtml = await renderTemplate(CONSTANTS.PATH + "templates/chat/gave-items.html", {
 			message: game.i18n.format("ITEM-PILES.Chat.GaveItems", { source: sourceActor.name, target: targetActor.name }),
 			source: sourceActor,
 			target: targetActor,
-			items: items
+			items: itemsData
 		});
 
 		const user = game.users.get(userId);
@@ -539,7 +542,7 @@ export default class ChatAPI {
 				version: Helpers.getModuleVersion(),
 				source: sourceActor.uuid,
 				target: targetActor.uuid,
-				items: items,
+				items: itemsData,
 				secret
 			}
 		}
@@ -559,22 +562,56 @@ export default class ChatAPI {
 
 	}
 
+	static _createCustomItemToDisplay(items) {
+		let itemsData =[];
+		for (let item of items) {
+			const itemDetail = getItemDetailsByIdentified(item);
+
+			let itemData = {
+				id: item._id,
+				name: itemDetail.name,
+				identifiedName: game.user.isGM && itemDetail.identifiedName != itemDetail.name ? itemDetail.identifiedName : null,
+				type: item.type,
+				img: itemDetail.img,
+				hide: flags.hide,
+				lock: flags.lock,
+				consumable: flags.consumable,
+				from: flags.from,
+				quantity: flags.quantity,
+				qtyof: qtyof,
+				remaining: flags.remaining,
+				price: (price.consume ? "-" : "") + price.value + " " + price.currency,
+				cost: (cost.consume && (game.user.isGM || this.object.isOwner) ? "-" : "") + (cost.value + " " + cost.currency),
+				text: text,
+				icon: icon,
+				assigned: flags.assigned,
+				received: flags.received,
+				requests: requests
+			};
+			itemsData.push(itemData);
+		}
+
+		return itemsData;
+	}
+
 	static async _updateExistingGiveMessage(message, sourceActor, targetActor, items) {
 
 		const flags = foundry.utils.getProperty(message, CONSTANTS.FLAGS.PILE);
 
 		const newItems = this._matchEntries(flags.items, items);
 
+		let itemsData = this._createCustomItemToDisplay(newItems);
+
 		const chatCardHtml = await renderTemplate(CONSTANTS.PATH + "templates/chat/gave-items.html", {
 			message: game.i18n.format("ITEM-PILES.Chat.GaveItems", { source: sourceActor.name, target: targetActor.name }),
 			source: sourceActor,
 			target: targetActor,
-			items: newItems
+			items: itemsData
 		});
 
 		return message.update({
 			content: chatCardHtml,
-			[`${CONSTANTS.FLAGS.PILE}.items`]: newItems
+			[`${CONSTANTS.FLAGS.PILE}.items`]: itemsData
 		});
 
 	}
