@@ -101,7 +101,7 @@ export class PileItem extends PileBaseItem {
 			const updateData = this.itemDocument.updateOptions;
 			const renderData = updateData?.renderData ?? updateData?.data ?? {};
 			const itemData = CompendiumUtilities.findSimilarItemInCompendiumSync(this.item);
-			const itemDetail = getItemDetailsByIdentified(itemData || item);
+			const itemDetail = getItemDetailsByIdentified(itemData || this.item);
 			this.name.set(itemDetail.name);
 			this.identifiedName.set(game.user.isGM && itemDetail.identifiedName != itemDetail.name ? itemDetail.identifiedName : null);
 			this.img.set(itemDetail.img);
