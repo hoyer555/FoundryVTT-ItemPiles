@@ -69,7 +69,7 @@ export class PileItem extends PileBaseItem {
 		this.id = this.item.id;
 		this.type = this.item.type;
 		const itemData = CompendiumUtilities.findSimilarItemInCompendiumSync(this.item);
-		const itemDetail = getItemDetailsByIdentified(itemData);
+		const itemDetail = getItemDetailsByIdentified(itemData || item);
 		this.name = writable(itemDetail.name);
 		this.identifiedName = writable(itemDetail.identifiedName);
 		this.img = writable(itemDetail.img);
