@@ -47,7 +47,7 @@
 			   on:click={() => { entry.preview() }}
 			   style="color: {$rarityColor || 'inherit'};"
 			>
-				{$name} {#if $identifiedName}<span class="identified-name" data-tooltip="{$identifiedname}"><i class="fas fa-circle-question"></i></span>{/if}
+				{$name}
 			</p>
 			{#if !$editQuantities && (entry.canStack || !entry.id) && ($pileData.shareCurrenciesEnabled || !currency)}
 				<span class="item-piles-small-text">(x{$quantity})</span>
