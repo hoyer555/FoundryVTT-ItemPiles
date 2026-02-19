@@ -8,17 +8,19 @@ import {
 
 import { sveltePreprocess } from 'svelte-preprocess';
 
-import moduleJSON from './module.json' with { type: 'json' };
+import moduleJSON from './module.json';
 
 // ATTENTION!
 // Please modify the below variables: s_PACKAGE_ID and s_SVELTE_HASH_ID appropriately.
 
-const s_PACKAGE_ID = `modules/${moduleJSON.id}`;
+// For convenience, you just need to modify the package ID below as it is used to fill in default proxy settings for
+// the dev server.
+const s_PACKAGE_ID = 'modules/item-piles';
 
 // A short additional string to add to Svelte CSS hash values to make yours unique. This reduces the amount of
 // duplicated framework CSS overlap between many TRL packages enabled on Foundry VTT at the same time. 'tse' is chosen
 // by shortening 'template-svelte-esm'.
-const s_SVELTE_HASH_ID = 'ip';
+const s_SVELTE_HASH_ID = 'tse';
 
 const s_COMPRESS = false;  // Set to true to compress the module bundle.
 const s_SOURCEMAPS = true; // Generate sourcemaps for the bundle (recommended).
