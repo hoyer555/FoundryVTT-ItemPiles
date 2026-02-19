@@ -104,7 +104,7 @@ export class PileItem extends PileBaseItem {
 			const itemDetail = getItemDetailsByIdentified(itemData || item);
 			this.name.set(itemDetail.name);
 			this.identifiedName.set(game.user.isGM && itemDetail.identifiedName != itemDetail.name ? itemDetail.identifiedName : null);
-			this.img.set(itemDetail.img))
+			this.img.set(itemDetail.img);
 			this.similarities = Utilities.setSimilarityProperties({}, this.item);
 			if (PileUtilities.canItemStack(this.item, this.store.actor) && Utilities.hasItemQuantity(renderData)) {
 				this.quantity.set(Utilities.getItemQuantity(renderData));
