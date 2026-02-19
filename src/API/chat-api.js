@@ -222,9 +222,12 @@ export default class ChatAPI {
 		const currencyList = PileUtilities.getActorCurrencies(itemPile, { getAll: true });
 		for (const itemData of items) {
 			const tempItem = new Item.implementation(itemData.item);
+			const itemDetail = getItemDetailsByIdentified(itemData.item);
+			const identifiedName = game.user.isGM && itemDetail.identifiedName != itemDetail.name ? itemDetail.identifiedName : null;
 			const data = {
-				name: game.i18n.localize(tempItem.name),
-				img: tempItem.img ?? itemData?.item?.img ?? "",
+				name: game.i18n.localize(itemDetail.name),
+				identifiedName: game.i18n.localize(identifiedName),
+				img: itemDetail.img ?? "",
 				quantity: Math.abs(itemData.quantity) / divideBy
 			};
 			if (PileUtilities.isItemCurrency(tempItem, { actorCurrencies: currencyList })) {
@@ -286,11 +289,13 @@ export default class ChatAPI {
 			}
 		}
 
+		let itemsData = this._createCustomItemToDisplay(items);
+
 		const chatCardHtml = await renderTemplate(CONSTANTS.PATH + "templates/chat/looted.html", {
 			message: game.i18n.format("ITEM-PILES.Chat.Pickup", { name: targetActor.name }),
 			itemPile: sourceActor,
 			actor: targetActor,
-			items: items,
+			items: itemsData,
 			currencies: currencies
 		});
 
@@ -304,7 +309,7 @@ export default class ChatAPI {
 				version: Helpers.getModuleVersion(),
 				source: sourceUuid,
 				target: targetUuid,
-				items: items,
+				items: itemsData,
 				currencies: currencies,
 				interactionId: interactionId
 			}
@@ -336,6 +341,8 @@ export default class ChatAPI {
 		const newItems = this._matchEntries(flags.items, items);
 		const newCurrencies = this._matchEntries(flags.currencies, currencies);
 
+		let itemsData = this._createCustomItemToDisplay(newItems);
+
 		newCurrencies.sort((a, b) => {
 			return a.index - b.index;
 		})
@@ -344,14 +351,14 @@ export default class ChatAPI {
 			message: game.i18n.format("ITEM-PILES.Chat.Pickup", { name: targetActor.name }),
 			itemPile: sourceActor,
 			actor: targetActor,
-			items: newItems,
+			items: itemsData,
 			currencies: newCurrencies
 		});
 
 		return message.update({
 			content: chatCardHtml,
 			[`${CONSTANTS.FLAGS.PILE}.interactionId`]: interactionId,
-			[`${CONSTANTS.FLAGS.PILE}.items`]: newItems,
+			[`${CONSTANTS.FLAGS.PILE}.items`]: itemsData,
 			[`${CONSTANTS.FLAGS.PILE}.currencies`]: newCurrencies,
 		});
 
