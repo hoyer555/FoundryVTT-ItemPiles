@@ -14,7 +14,14 @@
 		{{#each items as |item id|}}
 		<li>
 			<img src="{{item.img}}" data-fast-tooltip="{{item.name}}" height="16"/>
-			<label>{{item.name}}{{#if this.identifiedName}} <span class="identified-name" data-tooltip="{{this.identifiedName}}"><i class="fas fa-circle-question"></i></span>{{/if}}</label>
+			<label>
+				{{#if item.identified}}
+					{{item.identifiedName}}
+				{{else}}
+					{{item.name}}
+					{{#if item.showIdentification}}<span class="identified-name" data-tooltip="{{item.identifiedName}}"><i class="fas fa-circle-question"></i></span>{{/if}}
+				{{/if}}
+			</label>
 			<small>{{item.quantity}}</small>
 		</li>
 		{{/each}}
