@@ -10,6 +10,8 @@
 
 	const name = entry.name;
 	const identifiedName = entry.identifiedName;
+	const identified = entry.identified;
+	const showIdentification = entry.showIdentification;
 	const img = entry.img;
 	const rarityColor = entry.rarityColor;
 	const quantityLeft = entry.quantityLeft;
@@ -48,7 +50,12 @@
 			   on:click={() => { entry.preview() }}
 			   style="color: {$rarityColor || 'inherit'};"
 			>
-				{$name} {#if $identifiedName}<span class="identified-name" data-tooltip="{$identifiedName}"><i class="fas fa-circle-question"></i></span>{/if}
+				{#if $identified}
+					{$identifiedName}
+				{:else}
+					{$name}
+					{#if $showIdentification}<span class="identified-name" data-tooltip="{$identifiedName}"><i class="fas fa-circle-question"></i></span>{/if}
+				{/if}
 			</p>
 			{#if !$editQuantities && (entry.canStack || !entry.id) && ($pileData.shareCurrenciesEnabled || !currency)}
 				<span class="item-piles-small-text">(x{$quantity})</span>

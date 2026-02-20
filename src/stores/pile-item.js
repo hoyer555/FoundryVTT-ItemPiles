@@ -71,7 +71,8 @@ export class PileItem extends PileBaseItem {
 		const itemData = CompendiumUtilities.findSimilarItemInCompendiumSync(this.item);
 		const itemDetail = getItemDetailsByIdentified(itemData || item);
 		this.name = writable(itemDetail.name);
-		this.identifiedName = writable(game.user.isGM && itemDetail.identifiedName != itemDetail.name ? itemDetail.identifiedName : null);
+		this.identifiedName = writable(itemDetail.identifiedName);
+		this.showIdentification = writable(game.user.isGM || this.item.ownership[game.user.id] === 3);
 		this.img = writable(itemDetail.img);
 		this.abbreviation = writable("");
 		this.identifier = foundry.utils.randomID();
@@ -103,7 +104,8 @@ export class PileItem extends PileBaseItem {
 			const itemData = CompendiumUtilities.findSimilarItemInCompendiumSync(this.item);
 			const itemDetail = getItemDetailsByIdentified(itemData || this.item);
 			this.name.set(itemDetail.name);
-			this.identifiedName.set(game.user.isGM && itemDetail.identifiedName != itemDetail.name ? itemDetail.identifiedName : null);
+			this.identifiedName.set(itemDetail.identifiedName);
+			this.showIdentification.set(game.user.isGM || this.item.ownership[game.user.id] === 3);
 			this.img.set(itemDetail.img);
 			this.similarities = Utilities.setSimilarityProperties({}, this.item);
 			if (PileUtilities.canItemStack(this.item, this.store.actor) && Utilities.hasItemQuantity(renderData)) {
