@@ -225,7 +225,7 @@ export default class ChatAPI {
 			const itemDetail = getItemDetailsByIdentified(itemData.item);
 			const identifiedName = itemDetail.identifiedName;
 			const identified = itemDetail.identified;
-			const showIdentification = game.user.isGM || this.object.isOwner;
+			const showIdentification = game.user.isGM || this.item.parent.isOwner;
 			const data = {
 				name: game.i18n.localize(itemDetail.name),
 				identifiedName: game.i18n.localize(identifiedName),
@@ -583,7 +583,7 @@ export default class ChatAPI {
 				name: itemDetail.name,
 				identifiedName: itemDetail.identifiedName,
 				identified: itemDetail.identified,
-				showIdentification: game.user.isGM || this.object.isOwner,
+				showIdentification: game.user.isGM || this.item.parent.isOwner,
 				type: item.type,
 				img: itemDetail.img,
 				hide: flags.hide,
