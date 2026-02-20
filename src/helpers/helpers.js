@@ -369,14 +369,17 @@ export function getCanvasMouse() {
 export function getItemDetailsByIdentified(item) {
 	let name = item.name;
 	let img = item.img;
-
 	let identifiedName = name;
+	let identified = true;
+
 	if (item.system?.identification?.status == "unidentified") {
 		name = item.system?.identification.unidentified.name || name;
 		img = item.system?.identification.unidentified.img || img;
+		identified = false;
 	} else if (item.system?.identified === false) {
 		name = item.system?.unidentified?.name || name;
+		identified = false;
 	}
 
-	return { name, img, identifiedName };
+	return { name, img, identifiedName, identified };
 }
