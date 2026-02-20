@@ -224,10 +224,12 @@ export default class ChatAPI {
 			const tempItem = new Item.implementation(itemData.item);
 			const itemDetail = getItemDetailsByIdentified(itemData.item);
 			const identifiedName = itemDetail.identifiedName;
+			const identified = itemDetail.identified;
 			const showIdentification = game.user.isGM || this.object.isOwner;
 			const data = {
 				name: game.i18n.localize(itemDetail.name),
 				identifiedName: game.i18n.localize(identifiedName),
+				identified: identified,
 				showIdentification: showIdentification,
 				img: itemDetail.img ?? "",
 				quantity: Math.abs(itemData.quantity) / divideBy
@@ -580,6 +582,7 @@ export default class ChatAPI {
 				id: item._id,
 				name: itemDetail.name,
 				identifiedName: itemDetail.identifiedName,
+				identified: itemDetail.identified,
 				showIdentification: game.user.isGM || this.object.isOwner,
 				type: item.type,
 				img: itemDetail.img,

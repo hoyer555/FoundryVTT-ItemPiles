@@ -72,6 +72,7 @@ export class PileItem extends PileBaseItem {
 		const itemDetail = getItemDetailsByIdentified(itemData || item);
 		this.name = writable(itemDetail.name);
 		this.identifiedName = writable(itemDetail.identifiedName);
+		this.identified = writable(itemDetail.identified);
 		this.showIdentification = writable(game.user.isGM || this.item.ownership[game.user.id] === 3);
 		this.img = writable(itemDetail.img);
 		this.abbreviation = writable("");
@@ -105,6 +106,7 @@ export class PileItem extends PileBaseItem {
 			const itemDetail = getItemDetailsByIdentified(itemData || this.item);
 			this.name.set(itemDetail.name);
 			this.identifiedName.set(itemDetail.identifiedName);
+			this.identified.set(itemDetail.identified);
 			this.showIdentification.set(game.user.isGM || this.item.ownership[game.user.id] === 3);
 			this.img.set(itemDetail.img);
 			this.similarities = Utilities.setSimilarityProperties({}, this.item);
